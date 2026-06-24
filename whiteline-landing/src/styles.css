@@ -86,20 +86,66 @@ img { display: block; max-width: 100%; }
   box-shadow: 0 8px 30px -20px rgba(15,23,42,.3);
 }
 .nav__inner { display: flex; align-items: center; justify-content: space-between; }
-.nav__links { display: flex; align-items: center; gap: 30px; }
-.nav__links a { font-weight: 500; font-size: 15px; color: rgba(255,255,255,.82); transition: color .2s; }
-.nav__links a:hover { color: #fff; }
+.nav__desktop { display: flex; align-items: center; gap: 30px; }
+.nav__desktop a { font-weight: 500; font-size: 15px; color: rgba(255,255,255,.82); transition: color .2s; }
+.nav__desktop a:hover { color: #fff; }
 .nav__cta { color: #fff !important; }
 /* Over light bg once scrolled */
 .nav--scrolled .brand__name { color: var(--ink); }
-.nav--scrolled .nav__links a { color: var(--slate); }
-.nav--scrolled .nav__links a:hover { color: var(--blue-600); }
+.nav--scrolled .nav__desktop a { color: var(--slate); }
+.nav--scrolled .nav__desktop a:hover { color: var(--blue-600); }
+.nav--scrolled .nav__desktop a.nav__cta { color: #fff !important; }
 .nav--scrolled .nav__burger span { background: var(--ink); }
-.nav__burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; }
+.nav--open .nav__burger span { background: var(--ink); }
+.nav__burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; z-index: 70; }
 .nav__burger span { width: 24px; height: 2.5px; background: #fff; border-radius: 2px; transition: .3s; }
 .nav__burger span.open:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
 .nav__burger span.open:nth-child(2) { opacity: 0; }
 .nav__burger span.open:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+/* ---------- Mobile drawer ---------- */
+.nav__backdrop {
+  position: fixed; inset: 0; z-index: 55; background: rgba(5,10,28,.55);
+  backdrop-filter: blur(3px); opacity: 0; pointer-events: none; transition: opacity .35s ease;
+}
+.nav__backdrop.is-open { opacity: 1; pointer-events: auto; }
+.drawer {
+  position: fixed; top: 0; right: 0; z-index: 60; height: 100%; width: 86%; max-width: 360px;
+  display: none; flex-direction: column;
+  background: linear-gradient(180deg, #ffffff 0%, #eef3ff 100%);
+  box-shadow: -30px 0 80px -20px rgba(15,23,42,.4);
+  transform: translateX(100%); transition: transform .4s cubic-bezier(.22,.7,.2,1);
+  border-top-left-radius: 26px; border-bottom-left-radius: 26px; overflow: hidden;
+}
+.drawer--open { transform: none; }
+.drawer__head { display: flex; align-items: center; justify-content: space-between; padding: 22px 22px 16px; border-bottom: 1px solid rgba(15,23,42,.07); }
+.drawer__head .brand__name { color: var(--ink); }
+.drawer__close { width: 40px; height: 40px; border-radius: 12px; border: 1px solid rgba(15,23,42,.1); background: #fff; color: var(--ink); display: grid; place-items: center; cursor: pointer; transition: .2s; }
+.drawer__close:hover { background: var(--blue-50); color: var(--blue-600); border-color: rgba(37,99,235,.3); }
+
+.drawer__links { display: flex; flex-direction: column; padding: 14px 14px 6px; flex: 1; }
+.drawer__links a {
+  display: flex; align-items: center; gap: 14px; padding: 16px 14px; border-radius: 16px;
+  color: var(--ink); transition: .22s ease; position: relative;
+}
+.drawer--open .drawer__links a { animation: drawerItem .45s both; animation-delay: calc(var(--i) * .07s + .12s); }
+@keyframes drawerItem { from { opacity: 0; transform: translateX(20px); } }
+.drawer__links a:hover, .drawer__links a:active { background: #fff; box-shadow: var(--shadow-md); }
+.drawer__num { font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; color: var(--blue-500); width: 26px; }
+.drawer__label { flex: 1; display: flex; flex-direction: column; }
+.drawer__label b { font-size: 18px; font-weight: 700; letter-spacing: -.3px; }
+.drawer__label small { font-size: 12.5px; color: var(--slate); margin-top: 1px; }
+.drawer__arrow { color: var(--slate-300); transition: .2s; }
+.drawer__links a:hover .drawer__arrow { color: var(--blue-600); transform: translateX(3px); }
+
+.drawer__foot { padding: 18px 18px 24px; border-top: 1px solid rgba(15,23,42,.07); background: rgba(255,255,255,.6); }
+.drawer__contacts { display: grid; grid-template-columns: 1fr 1.5fr; gap: 10px; margin-top: 12px; }
+.drawer__contact { display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 12px 10px; border-radius: 13px; font-size: 12.5px; font-weight: 600; white-space: nowrap; transition: .2s; }
+.drawer__contact span { font-size: 14px; }
+.drawer__contact--tg { background: rgba(34,158,217,.12); color: #1c8fc4; }
+.drawer__contact--tg:hover { background: rgba(34,158,217,.2); }
+.drawer__contact--call { background: rgba(34,197,94,.12); color: #15803d; }
+.drawer__contact--call:hover { background: rgba(34,197,94,.2); }
 
 /* ---------- Hero (cinematic, founder-centric) ---------- */
 .hero {
@@ -415,18 +461,9 @@ img { display: block; max-width: 100%; }
   .leadership__visual { max-width: 360px; margin: 0 auto; }
 }
 @media (max-width: 760px) {
-  .nav__links {
-    position: fixed; top: 0; right: 0; height: 100vh; width: 78%; max-width: 320px;
-    flex-direction: column; align-items: flex-start; justify-content: center; gap: 26px;
-    background: rgba(247,249,255,.97); backdrop-filter: blur(20px); padding: 40px;
-    transform: translateX(100%); transition: transform .35s ease; box-shadow: var(--shadow-lg);
-  }
-  .nav__links--open { transform: none; }
-  /* Dark text on the light mobile menu panel */
-  .nav__links a { color: var(--ink); font-size: 17px; font-weight: 600; }
-  .nav__links a:hover { color: var(--blue-600); }
-  .nav__links .nav__cta { color: #fff !important; align-self: stretch; text-align: center; justify-content: center; }
-  .nav__burger { display: flex; z-index: 60; }
+  .nav__desktop { display: none; }
+  .drawer { display: flex; }
+  .nav__burger { display: flex; }
   .hero { padding-top: 100px; padding-bottom: 30px; }
   .hero__founder { height: 50%; opacity: .22; }
   .hero__display { font-size: clamp(44px, 13vw, 60px); }
