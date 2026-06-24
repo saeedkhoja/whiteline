@@ -2,8 +2,9 @@ import { useState } from 'react'
 import { orderServices } from '../data'
 import { Arrow } from './Icons'
 
-const TELEGRAM = 'https://t.me/whiteline'
-const PHONE = '+998000000000'
+const TELEGRAM = 'https://t.me/+998900378770'
+const PHONE = '+998900378770'
+const PHONE_DISPLAY = '+998 90 037 87 70'
 
 export default function OrderForm() {
   const [picked, setPicked] = useState(['Web sayt / platforma'])
@@ -42,7 +43,7 @@ export default function OrderForm() {
             </a>
             <a href={`tel:${PHONE}`} className="quick-btn quick-btn--call">
               <span className="quick-btn__ic">☎</span>
-              <span><b>Qo‘ng‘iroq qilish</b><small>{PHONE.replace('998', '998 ')}</small></span>
+              <span><b>Qo‘ng‘iroq qilish</b><small>{PHONE_DISPLAY}</small></span>
             </a>
           </div>
 

@@ -422,6 +422,10 @@ img { display: block; max-width: 100%; }
     transform: translateX(100%); transition: transform .35s ease; box-shadow: var(--shadow-lg);
   }
   .nav__links--open { transform: none; }
+  /* Dark text on the light mobile menu panel */
+  .nav__links a { color: var(--ink); font-size: 17px; font-weight: 600; }
+  .nav__links a:hover { color: var(--blue-600); }
+  .nav__links .nav__cta { color: #fff !important; align-self: stretch; text-align: center; justify-content: center; }
   .nav__burger { display: flex; z-index: 60; }
   .hero { padding-top: 100px; padding-bottom: 30px; }
   .hero__founder { height: 50%; opacity: .22; }

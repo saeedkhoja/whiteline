@@ -20,8 +20,8 @@ export default function Footer() {
           <div className="footer__col">
             <h4>Aloqa</h4>
             <a href="mailto:hello@whiteline.uz">hello@whiteline.uz</a>
-            <a href="https://t.me/whiteline" target="_blank" rel="noreferrer">Telegram</a>
-            <a href="tel:+998000000000">+998 00 000 00 00</a>
+            <a href="https://t.me/+998900378770" target="_blank" rel="noreferrer">Telegram</a>
+            <a href="tel:+998900378770">+998 90 037 87 70</a>
           </div>
         </div>
       </div>

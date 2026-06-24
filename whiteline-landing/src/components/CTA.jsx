@@ -12,7 +12,7 @@ export default function CTA() {
             <p className="cta__sub">Bepul konsultatsiya uchun biz bilan bog‘laning — 24 soat ichida javob beramiz.</p>
             <div className="cta__actions">
               <a href="mailto:hello@whiteline.uz" className="btn btn--primary btn--lg">hello@whiteline.uz <Arrow /></a>
-              <a href="https://t.me/whiteline" target="_blank" rel="noreferrer" className="btn btn--ghost btn--lg btn--on-dark">Telegram</a>
+              <a href="https://t.me/+998900378770" target="_blank" rel="noreferrer" className="btn btn--ghost btn--lg btn--on-dark">Telegram</a>
             </div>
           </div>
         </div>
