@@ -5,20 +5,41 @@ import { Arrow } from './Icons'
 const TELEGRAM = 'https://t.me/+998900378770'
 const PHONE = '+998900378770'
 const PHONE_DISPLAY = '+998 90 037 87 70'
+const API_URL = import.meta.env.VITE_API_URL || 'https://staging.calora.uz/api'
 
 export default function OrderForm() {
   const [picked, setPicked] = useState(['Web sayt / platforma'])
   const [sent, setSent] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [error, setError] = useState('')
   const [form, setForm] = useState({ name: '', phone: '', note: '' })
 
   const toggle = (s) =>
     setPicked((p) => (p.includes(s) ? p.filter((x) => x !== s) : [...p, s]))
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault()
-    const text = `Yangi buyurtma:\nIsm: ${form.name}\nTel: ${form.phone}\nXizmat: ${picked.join(', ')}\nIzoh: ${form.note}`
-    window.open(`${TELEGRAM}?text=${encodeURIComponent(text)}`, '_blank')
-    setSent(true)
+    setSending(true)
+    setError('')
+    try {
+      const res = await fetch(`${API_URL}/leads`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          phone: form.phone,
+          services: picked,
+          note: form.note,
+          source: 'whiteline-landing',
+        }),
+      })
+      if (!res.ok) throw new Error('request failed')
+      setSent(true)
+    } catch {
+      setError('Arizani yuborishda xatolik. Iltimos, Telegram orqali bog‘laning.')
+    } finally {
+      setSending(false)
+    }
   }
 
   return (
@@ -59,8 +80,8 @@ export default function OrderForm() {
             <div className="order__done">
               <div className="order__done-ic">✓</div>
               <h3>Rahmat, {form.name || 'do‘st'}!</h3>
-              <p>Arizangiz qabul qilindi. Telegram oynasida xabarni yuborishni tasdiqlang —
-                jamoamiz tez orada bog‘lanadi.</p>
+              <p>Arizangiz qabul qilindi va jamoamizga yuborildi —
+                tez orada siz bilan bog‘lanamiz.</p>
               <button type="button" className="btn-glow btn-glow--full" onClick={() => setSent(false)}>
                 <span>Yana ariza qoldirish</span>
               </button>
@@ -116,10 +137,11 @@ export default function OrderForm() {
                 />
               </div>
 
-              <button type="submit" className="btn-glow btn-glow--full">
-                <span>Arizani yuborish</span>
+              <button type="submit" className="btn-glow btn-glow--full" disabled={sending}>
+                <span>{sending ? 'Yuborilmoqda…' : 'Arizani yuborish'}</span>
                 <Arrow />
               </button>
+              {error && <p className="order__hint" style={{ color: '#ff6b6b' }}>{error}</p>}
               <p className="order__hint">🔒 Ma’lumotlaringiz uchinchi shaxslarga berilmaydi.</p>
             </>
           )}
