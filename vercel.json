@@ -1,6 +1,7 @@
 {
-  "buildCommand": "cd whiteline-landing && npm install && npm run build",
+  "framework": null,
+  "installCommand": "npm --prefix whiteline-landing install",
+  "buildCommand": "npm --prefix whiteline-landing run build",
   "outputDirectory": "whiteline-landing/dist",
-  "installCommand": "echo skip-root-install",
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }
